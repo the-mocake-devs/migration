@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lees de Bijbel online bij SJBijbel. Navigeer door de Bijbelboeken en zoek Bijbelverwijzingen en Bijbeltekst.">
+    <meta name="theme-color" content="#153c6b">
+    <link rel="icon" href="/icon" type="image/png">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/lezen.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Bijbel lezen | SJBijbel</title>
+</head>
+<body class="reader-page">
+    <nav class="navbar">
+        <a class="brand" href="/">
+            <div class="brand-logo"><img src="/logo.png" alt="SJB logo"></div>
+            <div class="brand-text">
+                <span class="brand-name">Bijbelzoeker</span>
+                <span class="brand-subtitle">Sint-Jan Berchmans</span>
+            </div>
+        </a>
+        <div class="reader-nav-links">
+            <a href="/">Zoeken</a>
+            <a href="/bijbelboeken">Bijbelboeken</a>
+            <span class="nav-badge"><span class="nav-dot"></span>Bijbel lezen</span>
+        </div>
+    </nav>
+
+    <main class="reader-shell">
+        <header class="reader-heading">
+            <div class="eyebrow"><span class="eyebrow-icon"></span>De Bijbel, helemaal doorzoekbaar</div>
+            <h1>Lees de <span>Bijbel.</span></h1>
+            <p class="hero-description">Kies een boek en hoofdstuk, zoek een specifieke verwijzing of vind woorden in de Bijbeltekst.</p>
+        </header>
+
+        <section class="reader-search-panel" aria-label="Zoeken in de Bijbel">
+            <div class="reader-tabs" role="tablist" aria-label="Zoekmethode">
+                <button class="reader-tab active" id="referenceTab" type="button" role="tab" aria-selected="true">Bijbelverwijzing</button>
+                <button class="reader-tab" id="textTab" type="button" role="tab" aria-selected="false">Zoeken in tekst</button>
+            </div>
+            <form id="referenceForm" class="reader-search-form">
+                <label class="sr-only" for="referenceInput">Bijbelverwijzing</label>
+                <input id="referenceInput" type="search" placeholder="Bijv. Johannes 3:16 of Psalm 23" autocomplete="off">
+                <button class="reader-primary-button" type="submit">Zoeken</button>
+            </form>
+            <form id="textForm" class="reader-search-form" hidden>
+                <label class="sr-only" for="textInput">Zoekterm</label>
+                <input id="textInput" type="search" placeholder="Welk woord of welke zin zoek je?" autocomplete="off">
+                <button class="reader-primary-button" type="submit">Zoeken</button>
+            </form>
+            <p class="reader-search-note" id="searchNote">Zoek bijvoorbeeld op Johannes 3:16, Romeinen 8 of Psalm 23.</p>
+        </section>
+
+        <div class="reader-layout">
+            <aside class="reader-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title-row">
+                        <h2>Bijbelboeken</h2>
+                        <span class="sidebar-count">66</span>
+                    </div>
+                    <label class="sr-only" for="bookFilter">Zoek een Bijbelboek</label>
+                    <input id="bookFilter" class="reader-filter" type="search" placeholder="Zoek boek...">
+                    <div class="testament-label">Oude Testament</div>
+                    <div id="oldBooks" class="book-list"></div>
+                    <div class="testament-label">Nieuwe Testament</div>
+                    <div id="newBooks" class="book-list"></div>
+                </div>
+            </aside>
+
+            <section class="reader-content" aria-live="polite">
+                <div id="readerWelcome" class="reader-welcome">
+                    <div class="welcome-icon">📖</div>
+                    <span class="reader-kicker">SJBIJBEL LEESOMGEVING</span>
+                    <h2>Waar wil je beginnen?</h2>
+                    <p>Kies links een Bijbelboek en daarna een hoofdstuk. Je kunt ook hierboven een verwijzing opzoeken.</p>
+                    <div class="quick-picks">
+                        <button type="button" data-reference="Genesis 1">Genesis 1</button>
+                        <button type="button" data-reference="Psalm 23">Psalm 23</button>
+                        <button type="button" data-reference="Johannes 1">Johannes 1</button>
+                        <button type="button" data-reference="Romeinen 8">Romeinen 8</button>
+                    </div>
+                </div>
+
+                <div id="chapterView" hidden>
+                    <div class="chapter-topline">
+                        <div>
+                            <span class="reader-kicker" id="testamentName">OUDE TESTAMENT</span>
+                            <h2 id="chapterTitle">Genesis 1</h2>
+                            <p id="chapterSubtitle">Hoofdstuk 1</p>
+                        </div>
+                        <button type="button" id="copyLinkButton" class="reader-icon-button" aria-label="Kopieer link naar dit hoofdstuk" title="Kopieer link">↗</button>
+                    </div>
+                    <div class="chapter-toolbar">
+                        <label for="chapterSelect">Hoofdstuk</label>
+                        <select id="chapterSelect"></select>
+                        <span class="toolbar-spacer"></span>
+                        <span class="translation-label" id="translationLabel">HSV</span>
+                    </div>
+                    <article id="verseContent" class="verse-content"></article>
+                    <div class="chapter-navigation">
+                        <button type="button" id="previousChapter" class="reader-secondary-button">← Vorig hoofdstuk</button>
+                        <button type="button" id="nextChapter" class="reader-primary-button">Volgend hoofdstuk →</button>
+                    </div>
+                </div>
+
+                <div id="searchResultsView" hidden>
+                    <div class="chapter-topline">
+                        <div>
+                            <span class="reader-kicker">ZOEKRESULTATEN</span>
+                            <h2 id="searchResultsTitle">Zoekresultaten</h2>
+                            <p id="searchResultsMeta"></p>
+                        </div>
+                    </div>
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+
+                <div id="readerStatus" class="reader-status" role="status"></div>
+            </section>
+        </div>
+        <p class="reader-credit">Bijbeltekst: Herziene Statenvertaling (HSV), alleen beschikbaar na toestemming/licentie van de rechthebbende.</p>
+    </main>
+
+    <footer class="reader-footer">
+        <a href="/">Terug naar SJBijbel</a>
+        <span>© SJBijbel · Sint-Jan Berchmans</span>
+    </footer>
+
+    <script src="/lezen.js" defer></script>
+</body>
+</html>
